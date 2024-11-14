@@ -31,22 +31,19 @@ class ViewController: NSViewController, WKNavigationDelegate {
         let webConfiguration = WKWebViewConfiguration()
         webConfiguration.allowsAirPlayForMediaPlayback = true
         webConfiguration.preferences.isElementFullscreenEnabled = true
+        webConfiguration.mediaTypesRequiringUserActionForPlayback = .all
         
-        MainWebView = WKWebView(frame: .zero, configuration: webConfiguration)
+        
+        MainWebView = WKWebView(frame: view.bounds, configuration: webConfiguration)
         MainWebView.navigationDelegate = self
         
         // Add the WKWebView as a subview of the main view
         view.addSubview(MainWebView)
         
         // Set up Auto Layout constraints for the web view to fill the parent view
-        MainWebView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            MainWebView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            MainWebView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            MainWebView.topAnchor.constraint(equalTo: view.topAnchor),
-            MainWebView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-        
+        MainWebView.translatesAutoresizingMaskIntoConstraints = true
+        MainWebView.autoresizingMask = [.width, .height]
+
         // Load the YouTube page
         if let url = URL(string: "https://www.youtube.com") {
             let request = URLRequest(url: url)
